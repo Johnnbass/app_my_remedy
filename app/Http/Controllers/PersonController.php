@@ -7,6 +7,24 @@ use Illuminate\Http\Request;
 
 class PersonController extends Controller
 {
+    public function __construct(Person $person)
+    {
+        $this->person = $person;
+    }
+
+    /**
+     * Retrieve specific data from database
+     * 
+     * @param Integer $id
+     */
+    private function find($id) {
+        $person = $this->person->find($id);
+        if ($person === null) {
+            $person = ['error' => 'Não foi possível concluir a operação, registro não identificado'];
+        }
+        return $person;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +32,7 @@ class PersonController extends Controller
      */
     public function index()
     {
-        return Person::all();
+        return $this->person->all();
     }
 
     /**
@@ -25,44 +43,50 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        return Person::create($request->all());
+        // return Person::create($request->all());
+        return $this->person->create($request->all());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Person  $person
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return Person::find($id);
+        return $this->find($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Person  $person
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $person = Person::find($id);
-        $person->update($request->all());
+        $person = $this->find($id);
+        if (!is_array($person)) {
+            $person->update($request->all());
+        }
         return $person;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Person  $person
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $person = Person::find($id);
-        $person->delete();
-        return ['msg' => 'A pessoa foi removida com sucesso'];
+        $person = $this->find($id);
+        if (!is_array($person)) {
+            $person->delete();
+            $person = ['msg' => 'A pessoa foi excluída com sucesso'];
+        }
+        return $person;
     }
 }

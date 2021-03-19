@@ -7,6 +7,24 @@ use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
+    public function __construct(Schedule $schedule)
+    {
+        $this->schedule = $schedule;
+    }
+
+    /**
+     * Retrieve specific data from database
+     * 
+     * @param Integer $id
+     */
+    private function find($id) {
+        $schedule = $this->schedule->find($id);
+        if ($schedule === null) {
+            $schedule = ['error' => 'Não foi possível concluir a operação, registro não identificado'];
+        }
+        return $schedule;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +32,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::all();
+        return $this->schedule->all();
     }
 
     /**
@@ -25,44 +43,49 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        return Schedule::create($request->all());
+        return $this->schedule->create($request->all());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Schedule  $schedule
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return Schedule::find($id);
+        return $this->find($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Schedule  $schedule
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $schedule = Schedule::find($id);
-        $schedule->update($request->all());
+        $schedule = $this->find($id);
+        if (!is_array($schedule)) {
+            $schedule->update($request->all());
+        }
         return $schedule;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Schedule  $schedule
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $schedule = Schedule::find($id);
-        $schedule->delete();
-        return ['msg' => 'O horário foi removido com sucesso'];
+        $schedule = $this->find($id);
+        if (!is_array($schedule)) {
+            $schedule->delete();
+            $schedule = ['msg' => 'O horário foi excluído com sucesso'];
+        }
+        return $schedule;
     }
 }
