@@ -34,9 +34,9 @@ class RemedyController extends Controller
      * @param  \App\Models\Remedy  $remedy
      * @return \Illuminate\Http\Response
      */
-    public function show(Remedy $remedy)
+    public function show($id)
     {
-        return $remedy;
+        return Remedy::find($id);
     }
 
     /**
@@ -46,9 +46,11 @@ class RemedyController extends Controller
      * @param  \App\Models\Remedy  $remedy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Remedy $remedy)
+    public function update(Request $request, $id)
     {
-        //
+        $remedy = Remedy::find($id);
+        $remedy->update($request->all());
+        return $remedy;
     }
 
     /**
@@ -57,8 +59,10 @@ class RemedyController extends Controller
      * @param  \App\Models\Remedy  $remedy
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Remedy $remedy)
+    public function destroy($id)
     {
-        //
+        $remedy = Remedy::find($id);
+        $remedy->delete();
+        return ['msg' => 'A medicação foi removida com sucesso'];
     }
 }

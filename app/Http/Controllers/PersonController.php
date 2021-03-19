@@ -34,9 +34,9 @@ class PersonController extends Controller
      * @param  \App\Models\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function show(Person $person)
+    public function show($id)
     {
-        return $person;
+        return Person::find($id);
     }
 
     /**
@@ -46,9 +46,11 @@ class PersonController extends Controller
      * @param  \App\Models\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Person $person)
+    public function update(Request $request, $id)
     {
-        //
+        $person = Person::find($id);
+        $person->update($request->all());
+        return $person;
     }
 
     /**
@@ -57,8 +59,10 @@ class PersonController extends Controller
      * @param  \App\Models\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Person $person)
+    public function destroy($id)
     {
-        //
+        $person = Person::find($id);
+        $person->delete();
+        return ['msg' => 'A pessoa foi removida com sucesso'];
     }
 }

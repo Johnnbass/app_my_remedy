@@ -34,9 +34,9 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function show(Schedule $schedule)
+    public function show($id)
     {
-        return $schedule;
+        return Schedule::find($id);
     }
 
     /**
@@ -46,9 +46,11 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(Request $request, $id)
     {
-        //
+        $schedule = Schedule::find($id);
+        $schedule->update($request->all());
+        return $schedule;
     }
 
     /**
@@ -57,8 +59,10 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Schedule $schedule)
+    public function destroy($id)
     {
-        //
+        $schedule = Schedule::find($id);
+        $schedule->delete();
+        return ['msg' => 'O horário foi removido com sucesso'];
     }
 }
