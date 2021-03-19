@@ -14,17 +14,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Schedule::all();
     }
 
     /**
@@ -35,7 +25,7 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Schedule::create($request->all());
     }
 
     /**
@@ -46,18 +36,7 @@ class ScheduleController extends Controller
      */
     public function show(Schedule $schedule)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Schedule  $schedule
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Schedule $schedule)
-    {
-        //
+        return $schedule;
     }
 
     /**

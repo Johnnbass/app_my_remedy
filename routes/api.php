@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('pessoa', 'App\Http\Controllers\PersonController');
+Route::apiResource('horario', 'App\Http\Controllers\ScheduleController');
+Route::apiResource('medicamento', 'App\Http\Controllers\RemedyController');

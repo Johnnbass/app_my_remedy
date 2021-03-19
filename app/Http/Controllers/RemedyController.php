@@ -14,17 +14,7 @@ class RemedyController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Remedy::all();
     }
 
     /**
@@ -35,7 +25,7 @@ class RemedyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Remedy::create($request->all());
     }
 
     /**
@@ -46,18 +36,7 @@ class RemedyController extends Controller
      */
     public function show(Remedy $remedy)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Remedy  $remedy
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Remedy $remedy)
-    {
-        //
+        return $remedy;
     }
 
     /**

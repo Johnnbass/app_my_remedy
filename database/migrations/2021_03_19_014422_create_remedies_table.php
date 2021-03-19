@@ -17,7 +17,7 @@ class CreateRemediesTable extends Migration
             $table->id();
             $table->string('name', 30);
             $table->string('dosage', 6);
-            $table->float('price', 8, 2);
+            $table->float('price', 8, 2)->nullable();
             $table->unsignedBigInteger('schedule');
             $table->unsignedBigInteger('person');
             $table->integer('period');

@@ -1,6 +1,6 @@
-### Esta aplicação foi construída como um exercício de desenvolvimento ###
+## Esta aplicação foi construída como um exercício de desenvolvimento
 
-# Passos para rodar a aplicação:
+### Passos para rodar a aplicação:
 
 - A partir de uma instância MariaDB, execute o script "database.sql" contido na raiz do projeto;
 
