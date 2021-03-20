@@ -16,45 +16,60 @@ class RemedyController extends Controller
      * Retrieve specific data from database
      * 
      * @param Integer $id
+     * @return \Illuminate\Http\Response
      */
     private function find($id) {
-        $remedy = $this->remedy->find($id);
-        if ($remedy === null) {
-            $remedy = ['error' => 'Não foi possível concluir a operação, registro não identificado'];
-        }
-        return $remedy;
+        return $this->remedy->find($id);
+    }
+
+    /**
+     * defines return error json
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function setError()
+    {
+        return response()->json([
+            'error' => 'Não foi possível concluir a operação. Registro não encontrado.'
+        ], 404);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return $this->remedy->all();
+        $remedy = $this->remedy->all();
+        return response()->json($remedy, 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        return $this->remedy->create($request->all());
+        $remedy = $this->remedy->create($request->all());
+        return response()->json($remedy, 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  Integer $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        return $this->find($id);
+        $remedy = $this->find($id);
+        if ($remedy === null) {
+            return $this->setError();
+        }
+        return response()->json($remedy, 200);
     }
 
     /**
@@ -62,30 +77,31 @@ class RemedyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Integer $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $remedy = $this->find($id);
-        if (!is_array($remedy)) {
-            $remedy->update($request->all());
+        if ($remedy === null) {
+            return $this->setError();
         }
-        return $remedy;
+        $remedy->update($request->all());
+        return response()->json($remedy, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  Integer $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $remedy = $this->find($id);
-        if (!is_array($remedy)) {
-            $remedy->delete();
-            $remedy = ['msg' => 'A medicação foi excluída com sucesso'];
+        if ($remedy === null) {
+            return $this->setError();
         }
-        return $remedy;
+        $remedy->delete();
+        return response()->json(['msg' => 'A medicação foi excluída com sucesso'], 200);
     }
 }
