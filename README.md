@@ -1,6 +1,6 @@
 ## Bem-vindo ao Meu Remédio, uma aplicação para cadastro e controle de horários de medicamentos em uso e seus respectivos usuários
 
-Requisitos para rodar a aplicação:
+### Requisitos para rodar a aplicação:
 
 - PHP 7+ com as extensões: PDO, Mbstring, Tokenizer, OpenSSL, XML
 - Composer

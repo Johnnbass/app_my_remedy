@@ -64,9 +64,37 @@ class RemedyController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $remedy = $this->remedy->with(['schedule', 'person'])->get();
+        $remedy = array();
+
+        // to query attributes
+        if ($request->has('dadosh') || $request->has('dadosp')) {
+            $sData = $request->dadosh ?? '';
+            $pData = $request->dadosp ?? '';
+            $remedy = $this->remedy->with(["schedule:id,{$sData}", "person:id,{$pData}"]);
+        } else {
+            $remedy = $this->remedy->with(['schedule', 'person']);
+        }
+
+        // to query filters (attribute=name:operand:value)
+        // to apply many filters, use ";" (attribute=name:operand:value;name2:operand2:value2)
+        if ($request->has('filtro')) {
+            $filters = explode(';', $request->filtro);
+
+            foreach ($filters as $key => $condition) {
+                $c = explode(':', $condition);
+                $remedy = $remedy->where($c[0], $c[1], $c[2]);
+            }
+        }
+
+        // end query
+        if ($request->has('dados')) {
+            $data = $request->dados;
+            $remedy = $remedy->selectRaw($data)->get();
+        } else {
+            $remedy = $remedy->get();
+        }
 
         return response()->json($remedy, 200);
     }

@@ -63,9 +63,28 @@ class ScheduleController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $schedule = $this->schedule->with('remedy')->get();
+        $schedule = array();
+
+        // to query filters (attribute=name:operand:value)
+        // to apply many filters, use ";" (attribute=name:operand:value;name2:operand2:value2)
+        if ($request->has('filtro')) {
+            $filters = explode(';', $request->filtro);
+
+            foreach ($filters as $key => $condition) {
+                $c = explode(':', $condition);
+                $schedule = $this->schedule->with('remedy')->where($c[0], $c[1], $c[2]);
+            }
+        }
+
+        // end query
+        if ($request->has('dados')) {
+            $data = $request->dados;
+            $schedule = $schedule->selectRaw($data)->get();
+        } else {
+            $schedule = $schedule->get();
+        }
 
         return response()->json($schedule, 200);
     }

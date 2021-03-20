@@ -66,9 +66,28 @@ class PersonController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $person = $this->person->with('remedy')->get();
+        $person = array();
+
+        // to query filters (attribute=name:operand:value)
+        // to apply many filters, use ";" (attribute=name:operand:value;name2:operand2:value2)
+        if ($request->has('filtro')) {
+            $filters = explode(';', $request->filtro);
+
+            foreach ($filters as $key => $condition) {
+                $c = explode(':', $condition);
+                $person = $this->person->with('remedy')->where($c[0], $c[1], $c[2]);
+            }
+        }
+
+        // end query
+        if ($request->has('dados')) {
+            $data = $request->dados;
+            $person = $person->selectRaw($data)->get();
+        } else {
+            $person = $person->get();
+        }
 
         return response()->json($person, 200);
     }
