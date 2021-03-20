@@ -19,7 +19,7 @@ class RemedyController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function find($id) {
-        return $this->remedy->find($id);
+        return $this->remedy->with(['schedule', 'person'])->find($id);
     }
 
     /**
@@ -66,7 +66,7 @@ class RemedyController extends Controller
      */
     public function index()
     {
-        $remedy = $this->remedy->all();
+        $remedy = $this->remedy->with(['schedule', 'person'])->get();
 
         return response()->json($remedy, 200);
     }

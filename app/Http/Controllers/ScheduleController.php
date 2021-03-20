@@ -19,7 +19,7 @@ class ScheduleController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function find($id) {
-        return $this->schedule->find($id);
+        return $this->schedule->with('remedy')->find($id);
     }
 
     /**
@@ -65,7 +65,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedule = $this->schedule->all();
+        $schedule = $this->schedule->with('remedy')->get();
 
         return response()->json($schedule, 200);
     }

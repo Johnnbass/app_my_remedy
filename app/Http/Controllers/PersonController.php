@@ -21,7 +21,7 @@ class PersonController extends Controller
      */
     private function find($id)
     {
-        return $this->person->find($id);
+        return $this->person->with('remedy')->find($id);
     }
 
     /**
@@ -68,7 +68,7 @@ class PersonController extends Controller
      */
     public function index()
     {
-        $person = $this->person->all();
+        $person = $this->person->with('remedy')->get();
 
         return response()->json($person, 200);
     }
@@ -137,8 +137,11 @@ class PersonController extends Controller
         if ($person === null) {
             return $this->setError();
         }
+
         $this->deleteRemedyOnCascade($id);
+
         $person->delete();
+        
         return response()->json(['msg' => 'A pessoa foi excluída com sucesso'], 200);
     }
 

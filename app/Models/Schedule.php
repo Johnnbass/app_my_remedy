@@ -28,8 +28,13 @@ class Schedule extends Model
     public function feedback()
     {
         return [
-            'schedule.required' => 'O campo Horário é obrigatório',
-            'schedule.unique' => 'Este horário já está cadastrado'
+            'schedule.required' => 'Você deve informar o Horário',
+            'schedule.unique' => 'O Horário informado já existe'
         ];
+    }
+
+    public function remedy()
+    {
+        return $this->hasMany('App\Models\Remedy');
     }
 }

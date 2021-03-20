@@ -18,13 +18,13 @@ class CreateRemediesTable extends Migration
             $table->string('name', 30);
             $table->string('dosage', 6);
             $table->float('price', 8, 2)->nullable();
-            $table->unsignedBigInteger('schedule');
-            $table->unsignedBigInteger('person');
+            $table->unsignedBigInteger('schedule_id');
+            $table->unsignedBigInteger('person_id');
             $table->integer('period');
             $table->timestamps();
 
-            $table->foreign('schedule')->references('id')->on('schedules');
-            $table->foreign('person')->references('id')->on('people');
+            $table->foreign('schedule_id')->references('id')->on('schedules');
+            $table->foreign('person_id')->references('id')->on('people');
         });
     }
 

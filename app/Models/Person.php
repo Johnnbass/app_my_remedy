@@ -31,10 +31,15 @@ class Person extends Model
     public function feedback()
     {
         return [
-            'name.required' => 'O campo Nome é obrigatório',
-            'name.min' => 'O campo Nome deve ter no mínimo 3 letras',
-            'name.max' => 'O campo Nome deve ter no máximo 30 letras',
-            'address.max' => 'O campo Endereço deve ter no máximo 200 números'
+            'name.required' => 'Você precisa informar o Nome',
+            'name.min' => 'O Nome deve ter pelo menos 3 letras',
+            'name.max' => 'O Nome deve ter até 30 letras',
+            'address.max' => 'O Endereço deve ter até 200 letras e números'
         ];
+    }
+
+    public function remedy()
+    {
+        return $this->hasMany('App\Models\Remedy');
     }
 }
