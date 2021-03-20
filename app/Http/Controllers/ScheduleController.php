@@ -23,7 +23,7 @@ class ScheduleController extends Controller
     }
 
     /**
-     * defines return error json
+     * defines json return error
      * 
      * @return \Illuminate\Http\JsonResponse
      */
@@ -35,6 +35,30 @@ class ScheduleController extends Controller
     }
 
     /**
+     * Validate fields
+     * 
+     * @param $request
+     */
+    private function validateForm($request)
+    {
+        $rules = $this->schedule->rules();
+        $feedback = $this->schedule->feedback();
+
+        if ($request->method() === 'PATCH') {
+            $dRules = array();
+
+            foreach ($rules as $input => $rule) {
+                if (array_key_exists($input, $request->all())) {
+                    $dRules[$input] = $rule;
+                }
+            }
+            $rules = $dRules;
+        }
+
+        $request->validate($rules, $feedback);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -42,6 +66,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $schedule = $this->schedule->all();
+
         return response()->json($schedule, 200);
     }
 
@@ -53,12 +78,15 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validateForm($request);
+        
         try {
             $schedule = $this->schedule->create($request->all());
+
+            return response()->json($schedule, 201);
         } catch (\Throwable $err) {
-            return response()->json(['error' => 'Não foi possível concluir a operação. Este horário já está cadastrado.'], 400);
+            return response()->json(['error' => 'Não foi possível concluir a operação. Este horário já está cadastrado.'], 422);
         }
-        return response()->json($schedule, 201);
     }
 
     /**
@@ -73,6 +101,7 @@ class ScheduleController extends Controller
         if ($schedule === null) {
             return $this->setError();
         }
+
         return response()->json($schedule, 200);
     }
 
@@ -89,7 +118,11 @@ class ScheduleController extends Controller
         if ($schedule === null) {
             return $this->setError();
         }
+
+        $this->validateForm($request);
+
         $schedule->update($request->all());
+        
         return response()->json($schedule, 200);
     }
 
@@ -105,7 +138,9 @@ class ScheduleController extends Controller
         if ($schedule === null) {
             return $this->setError();
         }
+
         $schedule->delete();
+
         return response()->json(['msg' => 'O horário foi excluído com sucesso'], 200);
     }
 }

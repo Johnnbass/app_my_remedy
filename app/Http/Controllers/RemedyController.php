@@ -23,7 +23,7 @@ class RemedyController extends Controller
     }
 
     /**
-     * defines return error json
+     * defines json return error
      * 
      * @return \Illuminate\Http\JsonResponse
      */
@@ -35,6 +35,31 @@ class RemedyController extends Controller
     }
 
     /**
+     * Validate fields
+     * 
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
+    private function validateForm($request)
+    {
+        $rules = $this->remedy->rules();
+        $feedback = $this->remedy->feedback();
+
+        if ($request->method() === 'PATCH') {
+            $dRules = array();
+
+            foreach ($rules as $input => $rule) {
+                if (array_key_exists($input, $request->all())) {
+                    $dRules[$input] = $rule;
+                }
+            }
+            $rules = $dRules;
+        }
+
+        $request->validate($rules, $feedback);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -42,6 +67,7 @@ class RemedyController extends Controller
     public function index()
     {
         $remedy = $this->remedy->all();
+
         return response()->json($remedy, 200);
     }
 
@@ -53,7 +79,10 @@ class RemedyController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validateForm($request);
+
         $remedy = $this->remedy->create($request->all());
+
         return response()->json($remedy, 201);
     }
 
@@ -69,6 +98,7 @@ class RemedyController extends Controller
         if ($remedy === null) {
             return $this->setError();
         }
+
         return response()->json($remedy, 200);
     }
 
@@ -85,7 +115,11 @@ class RemedyController extends Controller
         if ($remedy === null) {
             return $this->setError();
         }
+
+        $this->validateForm($request);
+
         $remedy->update($request->all());
+        
         return response()->json($remedy, 200);
     }
 
@@ -101,7 +135,9 @@ class RemedyController extends Controller
         if ($remedy === null) {
             return $this->setError();
         }
+        
         $remedy->delete();
+
         return response()->json(['msg' => 'A medicação foi excluída com sucesso'], 200);
     }
 }

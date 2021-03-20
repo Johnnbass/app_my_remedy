@@ -25,7 +25,7 @@ class PersonController extends Controller
     }
 
     /**
-     * defines return error json
+     * defines json return error
      * 
      * @return \Illuminate\Http\JsonResponse
      */
@@ -37,6 +37,31 @@ class PersonController extends Controller
     }
 
     /**
+     * Validate fields
+     * 
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
+    private function validateForm($request)
+    {
+        $rules = $this->person->rules();
+        $feedback = $this->person->feedback();
+
+        if ($request->method() === 'PATCH') {
+            $dRules = array();
+
+            foreach ($rules as $input => $rule) {
+                if (array_key_exists($input, $request->all())) {
+                    $dRules[$input] = $rule;
+                }
+            }
+            $rules = $dRules;
+        }
+
+        $request->validate($rules, $feedback);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -44,6 +69,7 @@ class PersonController extends Controller
     public function index()
     {
         $person = $this->person->all();
+
         return response()->json($person, 200);
     }
 
@@ -55,7 +81,10 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validateForm($request);
+
         $person = $this->person->create($request->all());
+
         return response()->json($person, 201);
     }
 
@@ -71,6 +100,7 @@ class PersonController extends Controller
         if ($person === null) {
             return $this->setError();
         }
+        
         return response()->json($person, 200);
     }
 
@@ -87,7 +117,11 @@ class PersonController extends Controller
         if ($person === null) {
             return $this->setError();
         }
+
+        $this->validateForm($request);
+
         $person->update($request->all());
+
         return response()->json($person, 200);
     }
 
