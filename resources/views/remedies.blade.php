@@ -68,18 +68,17 @@
         }
 
         function deleteRemedy(id) {
-            let res = confirm('Este medicamento será apagado. Tem certeza?');
+            let res = confirm('Este medicamento será apagado. Deseja continuar?');
 
             if (res) {
                 $.ajax({
                         method: "DELETE",
-                        url: `/api/medicamento/${id}`
-                    })
-                    .then(function(data) {
-                        location.replace('/medicamentos');
-                    })
-                    .catch(function(err) {
-                        console.log(err);
+                        url: `/api/medicamento/${id}`,
+                        success: function(res) {
+                            alert(res.msg);
+                            location.replace('/medicamentos');
+                        },
+                        error: function (xhr) {}
                     });
             } else {
                 location.replace('/medicamentos');

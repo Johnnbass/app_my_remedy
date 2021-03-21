@@ -20,8 +20,9 @@ class Remedy extends Model
         return [
             'name' => 'required|min:3|max:30',
             'dosage' => 'required|max:6',
-            'schedule_id' => 'required|integer',
-            'person_id' => 'required|integer',
+            'price' => 'numeric|nullable',
+            'schedule_id' => 'required',
+            'person_id' => 'required',
             'period' => 'required|integer'
         ];
     }
@@ -39,9 +40,10 @@ class Remedy extends Model
             'name.max' => 'O Nome do Medicamento deve ter até 30 letras',
             'dosage.required' => 'Você precisa informar a Dosagem do Medicamento',
             'dosage.max' => 'A dosagem deve ter até 6 letras e números',
+            'price.numeric' => 'O preço deve ser em números',
             'schedule_id.required' => 'Você deve informar um Horário',
             'person_id.required' => 'Você deve informar uma Pessoa',
-            'period_id.required' => 'Você deve informar um Período (em dias de uso)',
+            'period.required' => 'Você deve informar um Período (em dias de uso)',
             'period.integer' => 'Você deve informar um Período em números'
         ];
     }

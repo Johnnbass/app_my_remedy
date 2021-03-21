@@ -34,14 +34,22 @@
             date = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate()) + '/' + ((date.getMonth() < 10) ? '0' +
                 date.getMonth() : date.getMonth()) + '/' + date.getFullYear();
 
+            let disabled = '';
+            let disabledMsg = '';
+            if (data.remedy.length > 0) {
+                disabled = 'disabled';
+                disabledMsg = '<span style="color:red;">* Este horário está em uso</span>';
+            }
+
             let line = `<tr>
-                                            <td>${date} - ${time}</td>
-                                            <td>${data.schedule}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-secondary" onclick="editSchedule(${data.id})">Editar</button>
-                                                <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${data.id})">Apagar</button>
-                                            </td>
-                                        </tr>`;
+                            <td>${date} - ${time}</td>
+                            <td>${data.schedule}</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary" onclick="editSchedule(${data.id})" ${disabled}>Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${data.id})" ${disabled}>Apagar</button>
+                                ${disabledMsg}
+                            </td>
+                        </tr>`;
             return line;
         }
 
@@ -55,18 +63,17 @@
         }
 
         function deleteSchedule(id) {
-            let res = confirm('Este horário será apagado. Tem certeza?');
+            let res = confirm('Este horário será apagado. Deseja continuar?');
 
             if (res) {
                 $.ajax({
                         method: "DELETE",
-                        url: `/api/horario/${id}`
-                    })
-                    .then(function(data) {
-                        location.replace('/horarios');
-                    })
-                    .catch(function(err) {
-                        console.log(err);
+                        url: `/api/horario/${id}`,
+                        success: function(res) {
+                            alert(res.msg);
+                            location.replace('/horarios');
+                        },
+                        error: function (xhr) {}
                     });
             } else {
                 location.replace('/horarios');

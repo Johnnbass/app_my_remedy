@@ -30,6 +30,8 @@
         function mountLine(data) {
             let date = new Date(data.created_at);
             let time = null;
+            let age = (data.age === null) ? '' : data.age;
+            let address = (data.address === null) ? '' : data.address;
 
             time = ((date.getHours() < 10) ? '0'+date.getHours() : date.getHours())+':'+((date.getMinutes() < 10) ? '0'+date.getMinutes() : date.getMinutes());
             date = ((date.getDate() < 10) ? '0'+date.getDate() : date.getDate())+'/'+((date.getMonth() < 10) ? '0'+date.getMonth() : date.getMonth())+'/'+date.getFullYear();
@@ -37,8 +39,8 @@
             let line = `<tr>
                             <td>${date} - ${time}</td>
                             <td>${data.name}</td>
-                            <td>${data.age}</td>
-                            <td>${data.address}</td>
+                            <td>${age}</td>
+                            <td>${address}</td>
                             <td>
                                 <button class="btn btn-sm btn-secondary" onclick="editPerson(${data.id})">Editar</button>
                                 <button class="btn btn-sm btn-danger" onclick="deletePerson(${data.id})">Apagar</button>
@@ -57,18 +59,17 @@
         }
 
         function deletePerson(id) {
-            let res = confirm('Esta pessoa será apagada. Tem certeza?');
+            let res = confirm('Esta pessoa e seus medicamentos salvos serão apagados. Deseja continuar?');
 
             if (res) {
                 $.ajax({
                         method: "DELETE",
-                        url: `/api/pessoa/${id}`
-                    })
-                    .then(function(data) {
-                        location.replace('/pessoas');
-                    })
-                    .catch(function(err) {
-                        console.log(err);
+                        url: `/api/pessoa/${id}`,
+                        success: function(res) {
+                            alert(res.msg);
+                            location.replace('/pessoas');
+                        },
+                        error: function (xhr) {}
                     });
             } else {
                 location.replace('/pessoas');

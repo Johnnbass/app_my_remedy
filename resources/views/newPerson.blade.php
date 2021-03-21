@@ -43,10 +43,24 @@
 
             const dadosForm = $('#personForm').serialize();
 
-            $.post("/api/pessoa", dadosForm, function(data) {
-                if (status === 'success') {
+            $.ajax({
+                method: "POST",
+                url: "/api/pessoa",
+                data: dadosForm,
+                dataType: 'json',
+                success: function(res) {
                     alert('Pessoa cadastrada com sucesso!');
                     location.replace('/pessoas');
+                },
+                error: function(xhr) {
+                    let error = xhr.responseJSON.errors;
+                    let ret = '';
+
+                    for (err in error) {
+                        ret += '* ' + error[err] + '\n';
+                    }
+
+                    alert(ret);
                 }
             });
         });

@@ -109,9 +109,13 @@ class RemedyController extends Controller
     {
         $this->validateForm($request);
 
-        $remedy = $this->remedy->create($request->all());
+        try {
+            $remedy = $this->remedy->create($request->all());
 
-        return response()->json($remedy, 201);
+            return response()->json($remedy, 201);
+        } catch (\Throwable $err) {
+            return response()->json(['error' => 'Não foi possível concluir a operação.'.$err], 422);
+        }
     }
 
     /**
@@ -166,6 +170,6 @@ class RemedyController extends Controller
         
         $remedy->delete();
 
-        return response()->json(['msg' => 'A medicação foi excluída com sucesso'], 200);
+        return response()->json(['msg' => 'O medicamento foi excluído com sucesso'], 200);
     }
 }

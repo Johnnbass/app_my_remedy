@@ -19,7 +19,8 @@ class Person extends Model
     {
         return [
             'name' => 'required|min:3|max:30',
-            'address' => 'max:200'
+            'age' => 'integer|nullable',
+            'address' => 'max:200|nullable'
         ];
     }
 
@@ -34,6 +35,7 @@ class Person extends Model
             'name.required' => 'Você precisa informar o Nome',
             'name.min' => 'O Nome deve ter pelo menos 3 letras',
             'name.max' => 'O Nome deve ter até 30 letras',
+            'age.integer' => 'A idade deve ser em números',
             'address.max' => 'O Endereço deve ter até 200 letras e números'
         ];
     }
