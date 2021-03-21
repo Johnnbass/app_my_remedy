@@ -68,7 +68,7 @@ class PersonController extends Controller
      */
     public function index(Request $request)
     {
-        $person = array();
+        $person = $this->person->with('remedy');
 
         // to query filters (attribute=name:operand:value)
         // to apply many filters, use ";" (attribute=name:operand:value;name2:operand2:value2)
@@ -77,7 +77,7 @@ class PersonController extends Controller
 
             foreach ($filters as $key => $condition) {
                 $c = explode(':', $condition);
-                $person = $this->person->with('remedy')->where($c[0], $c[1], $c[2]);
+                $person = $person->where($c[0], $c[1], $c[2]);
             }
         }
 

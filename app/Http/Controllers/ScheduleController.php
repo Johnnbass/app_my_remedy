@@ -65,7 +65,7 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        $schedule = array();
+        $schedule = $this->schedule->with('remedy');
 
         // to query filters (attribute=name:operand:value)
         // to apply many filters, use ";" (attribute=name:operand:value;name2:operand2:value2)
@@ -74,7 +74,7 @@ class ScheduleController extends Controller
 
             foreach ($filters as $key => $condition) {
                 $c = explode(':', $condition);
-                $schedule = $this->schedule->with('remedy')->where($c[0], $c[1], $c[2]);
+                $schedule = $schedule->where($c[0], $c[1], $c[2]);
             }
         }
 

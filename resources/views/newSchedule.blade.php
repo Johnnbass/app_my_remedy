@@ -8,10 +8,10 @@
                 @csrf
                 <div class="form-group">
                     <label for="schedule">Horário</label>
-                    <input type="text" class="form-control" name="schedule" id="schedule"/>
+                    <input type="time" class="form-control" name="schedule" id="schedule"/>
                 </div>
                 <button type="submit" class="btn btn-info btn-sm">Salvar</button>
-                <button type="cancel" class="btn btn-danger btn-sm">Cancel</button>
+                <button type="reset" class="btn btn-danger btn-sm">Cancel</button>
             </form>
         </div>
     </div>
