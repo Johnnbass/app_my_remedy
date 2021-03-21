@@ -2,6 +2,9 @@
 
 @section('body')
     <div class="card border">
+        <div class="card-header">
+            <a href="/medicamentos/novo" class="btn btn-sm btn-info" role="button">Novo medicamento</a>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="">
@@ -26,9 +29,6 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <a href="/medicamentos/novo" class="btn btn-sm btn-info" role="button">Nova medicamento</a>
-        </div>
     </div>
 @endsection
 
@@ -51,8 +51,8 @@
                             <td>${data.person.name}</td>
                             <td>${data.period}</td>
                             <td>
-                                <a href="/medicamentos/editar/" class="btn btn-sm btn-secondary">Editar</a>
-                                <a href="/medicamentos/apagar/" class="btn btn-sm btn-danger">Apagar</a>
+                                <button class="btn btn-sm btn-secondary" onclick="edit(${data.id})">Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="delete(${data.id})">Apagar</button>
                             </td>
                         </tr>`;
             return line;

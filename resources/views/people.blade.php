@@ -2,6 +2,9 @@
 
 @section('body')
     <div class="card border">
+        <div class="card-header">
+            <a href="/pessoas/novo" class="btn btn-sm btn-info" role="button">Nova pessoa</a>
+        </div>
         <div class="card-body">
             <h5 class="card-title">Cadastro de Pessoas</h5>
             <table class="table table-ordered table-hover" id="peopleTable">
@@ -18,9 +21,6 @@
                     
                 </tbody>
             </table>
-        </div>
-        <div class="card-footer">
-            <a href="/pessoas/novo" class="btn btn-sm btn-info" role="button">Nova pessoa</a>
         </div>
     </div>
 @endsection
@@ -40,8 +40,8 @@
                             <td>${data.age}</td>
                             <td>${data.address}</td>
                             <td>
-                                <a href="/pessoas/editar/" class="btn btn-sm btn-secondary">Editar</a>
-                                <a href="/pessoas/apagar/" class="btn btn-sm btn-danger">Apagar</a>
+                                <button class="btn btn-sm btn-secondary" onclick="edit(${data.id})">Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="delete(${data.id})">Apagar</button>
                             </td>
                         </tr>`;
             return line;

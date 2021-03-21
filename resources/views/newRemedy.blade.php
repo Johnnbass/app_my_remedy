@@ -4,7 +4,7 @@
 
     <div class="card border">
         <div class="card-body">
-            <form action="/api/medicamento" method="POST">
+            <form id="remedyForm">
                 @csrf
                 <div class="form-group">
                     <label for="name">Nome</label>
@@ -38,7 +38,7 @@
                     <input type="text" class="form-control" name="period" id="period" />
                 </div>
                 <button type="submit" class="btn btn-info btn-sm">Salvar</button>
-                <button type="cancel" class="btn btn-danger btn-sm">Cancel</button>
+                <button type="cancel" class="btn btn-danger btn-sm">Cancelar</button>
             </form>
         </div>
     </div>
@@ -47,6 +47,13 @@
 
 @section('javascript')
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Accept': 'application/json'
+            }
+        });
+
         function loadSchedules() {
             $.getJSON("/api/horario", function(data) {
                 for (let i = 0; i < data.length; i++) {
@@ -64,6 +71,23 @@
                 }
             });
         }
+
+        $('#remedyForm').submit(function(e) {
+            e.preventDefault();
+
+            const dadosForm = $('#remedyForm').serialize();
+
+            $.post("/api/medicamento", dadosForm, function(data) {
+                if (status === 'success') {
+                    alert('Medicamento cadastrado com sucesso!');
+                    location.replace('/pessoas');
+                }
+            });
+        });
+
+        function cancela() {
+            location.replace('/medicamentos');
+        };
 
         $(function() {
             loadSchedules();
