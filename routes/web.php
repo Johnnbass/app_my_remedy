@@ -14,5 +14,36 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
+    return view('index');
+});
+
+Route::prefix('/horarios')->group(function() {
+    Route::get('/', function () {
+        return view('schedules');
+    });
+    Route::get('/novo', function () {
+        return view('newSchedule');
+    });
+});
+
+Route::prefix('/pessoas')->group(function() {
+    Route::get('/', function () {
+        return view('people');
+    });
+    Route::get('/novo', function () {
+        return view('newPerson');
+    });
+});
+
+Route::prefix('/medicamentos')->group(function () {
+    Route::get('/', function() {
+        return view('remedies');
+    });
+    Route::get('/novo', function() {
+        return view('newRemedy');
+    });
+});
+
+Route::fallback(function () {
+    return redirect('/');
 });

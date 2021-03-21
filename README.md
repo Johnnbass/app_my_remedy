@@ -4,19 +4,21 @@
 
 - PHP 7+ com as extensões: PDO, Mbstring, Tokenizer, OpenSSL, XML
 - Composer
+- NPM
 - Laravel 8
+- MySQL
 
 ### Passos para rodar a aplicação:
 
-- A partir da raiz do projeto, baixar as dependências do projeto: $ composer update;
+- A partir da raiz do projeto, baixar as dependências do projeto pelo composer: $ composer update
 
-- A partir de uma instância MariaDB, execute o script "database.sql" (no SGBD) contido na raiz do projeto;
+- A partir da raiz do projeto, baixar as dependências do projeto pelo npm: $ npm install
 
-- Configure o arquivo ".env" com as devidas credenciais de conexão com o banco de dados, conforme ".env-example";
+- A partir de uma instância MariaDB, execute o script "database.sql" (no SGBD) contido na raiz do projeto
 
-- A partir da raiz do projeto, rode as migrations: $ php artisan migrate;
+- Configure o arquivo ".env" com as devidas credenciais de conexão com o banco de dados, conforme ".env-example"
 
-- A partir da raiz do projeto, rode o servidor embutido: $ php artisan serve;
+- A partir da raiz do projeto, rode as migrations: $ php artisan migrate
 
-
+- A partir da raiz do projeto, rode o servidor embutido: $ php artisan serve
 
