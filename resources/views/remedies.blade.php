@@ -51,8 +51,8 @@
                             <td>${data.person.name}</td>
                             <td>${data.period}</td>
                             <td>
-                                <button class="btn btn-sm btn-secondary" onclick="edit(${data.id})">Editar</button>
-                                <button class="btn btn-sm btn-danger" onclick="delete(${data.id})">Apagar</button>
+                                <button class="btn btn-sm btn-secondary" onclick="editRemedy(${data.id})">Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteRemedy(${data.id})">Apagar</button>
                             </td>
                         </tr>`;
             return line;
@@ -65,6 +65,25 @@
                     $('#remedyTable>tbody').append(line);
                 }
             });
+        }
+
+        function deleteRemedy(id) {
+            let res = confirm('Este medicamento será apagado. Tem certeza?');
+
+            if (res) {
+                $.ajax({
+                        method: "DELETE",
+                        url: `/api/medicamento/${id}`
+                    })
+                    .then(function(data) {
+                        location.replace('/medicamentos');
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            } else {
+                location.replace('/medicamentos');
+            }
         }
 
         $(function() {

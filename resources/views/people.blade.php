@@ -40,8 +40,8 @@
                             <td>${data.age}</td>
                             <td>${data.address}</td>
                             <td>
-                                <button class="btn btn-sm btn-secondary" onclick="edit(${data.id})">Editar</button>
-                                <button class="btn btn-sm btn-danger" onclick="delete(${data.id})">Apagar</button>
+                                <button class="btn btn-sm btn-secondary" onclick="editPerson(${data.id})">Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="deletePerson(${data.id})">Apagar</button>
                             </td>
                         </tr>`;
             return line;
@@ -54,6 +54,25 @@
                     $('#peopleTable>tbody').append(line);
                 }
             });
+        }
+
+        function deletePerson(id) {
+            let res = confirm('Esta pessoa será apagada. Tem certeza?');
+
+            if (res) {
+                $.ajax({
+                        method: "DELETE",
+                        url: `/api/pessoa/${id}`
+                    })
+                    .then(function(data) {
+                        location.replace('/pessoas');
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            } else {
+                location.replace('/pessoas');
+            }
         }
 
         $(function() {

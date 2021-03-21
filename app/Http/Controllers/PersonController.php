@@ -171,6 +171,9 @@ class PersonController extends Controller
      */
     private function deleteRemedyOnCascade($p_id)
     {
-        Remedy::where('person', '=', $p_id)->delete();        
+        $remedy = Remedy::where('person_id', '=', $p_id)->get();
+        if (count($remedy) > 0) {
+            Remedy::where('person_id', '=', $p_id)->delete();
+        }
     }
 }

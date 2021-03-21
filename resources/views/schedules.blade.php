@@ -35,13 +35,13 @@
                 date.getMonth() : date.getMonth()) + '/' + date.getFullYear();
 
             let line = `<tr>
-                                <td>${date} - ${time}</td>
-                                <td>${data.schedule}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-secondary" onclick="edit(${data.id})">Editar</button>
-                                    <button class="btn btn-sm btn-danger" onclick="delete(${data.id})">Apagar</button>
-                                </td>
-                            </tr>`;
+                                            <td>${date} - ${time}</td>
+                                            <td>${data.schedule}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-secondary" onclick="editSchedule(${data.id})">Editar</button>
+                                                <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${data.id})">Apagar</button>
+                                            </td>
+                                        </tr>`;
             return line;
         }
 
@@ -52,6 +52,25 @@
                     $('#scheduleTable>tbody').append(line);
                 }
             });
+        }
+
+        function deleteSchedule(id) {
+            let res = confirm('Este horário será apagado. Tem certeza?');
+
+            if (res) {
+                $.ajax({
+                        method: "DELETE",
+                        url: `/api/horario/${id}`
+                    })
+                    .then(function(data) {
+                        location.replace('/horarios');
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            } else {
+                location.replace('/horarios');
+            }
         }
 
         $(function() {

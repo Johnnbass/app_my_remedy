@@ -41,12 +41,26 @@
 
             const dadosForm = $('#scheduleForm').serialize();
 
-            $.post("/api/horario", dadosForm, function(data, status) {
-                if (status === 'success') {
+            $.ajax({
+                    method: "POST",
+                    url: "/api/horario",
+                    data: dadosForm
+                })
+                .then(function(data) {
+                    console.log(data);
                     alert('Horário cadastrado com sucesso!');
                     location.replace('/horarios');
-                }
-            });
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+
+            // $.post("/api/horario", dadosForm, function(data, status) {
+            //     if (status === 'success') {
+            //         alert('Horário cadastrado com sucesso!');
+            //         location.replace('/horarios');
+            //     }
+            // });
         });
 
         function cancela() {
