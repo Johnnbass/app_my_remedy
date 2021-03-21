@@ -67,12 +67,12 @@
                         url: `/api/pessoa/${id}`,
                         success: function(res) {
                             alert(res.msg);
-                            location.replace('/pessoas');
+                            location.assign('/pessoas');
                         },
                         error: function (xhr) {}
                     });
             } else {
-                location.replace('/pessoas');
+                location.assign('/pessoas');
             }
         }
 

@@ -24,6 +24,9 @@ Route::prefix('/horarios')->group(function() {
     Route::get('/novo', function () {
         return view('newSchedule');
     });
+    Route::get('/editar/{id}', function (int $id) {
+        return view('newSchedule', ['id' => $id]);
+    });
 });
 
 Route::prefix('/pessoas')->group(function() {

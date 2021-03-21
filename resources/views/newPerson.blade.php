@@ -50,7 +50,7 @@
                 dataType: 'json',
                 success: function(res) {
                     alert('Pessoa cadastrada com sucesso!');
-                    location.replace('/pessoas');
+                    location.assign('/pessoas');
                 },
                 error: function(xhr) {
                     let error = xhr.responseJSON.errors;
@@ -66,7 +66,7 @@
         });
 
         function cancela() {
-            location.replace('/pessoas');
+            location.assign('/pessoas');
         };
 
     </script>

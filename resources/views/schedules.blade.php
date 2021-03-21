@@ -42,14 +42,14 @@
             }
 
             let line = `<tr>
-                            <td>${date} - ${time}</td>
-                            <td>${data.schedule}</td>
-                            <td>
-                                <button class="btn btn-sm btn-secondary" onclick="editSchedule(${data.id})" ${disabled}>Editar</button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${data.id})" ${disabled}>Apagar</button>
-                                ${disabledMsg}
-                            </td>
-                        </tr>`;
+                                <td>${date} - ${time}</td>
+                                <td>${data.schedule}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary" onclick="editSchedule(${data.id})" ${disabled}>Editar</button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${data.id})" ${disabled}>Apagar</button>
+                                    ${disabledMsg}
+                                </td>
+                            </tr>`;
             return line;
         }
 
@@ -67,17 +67,21 @@
 
             if (res) {
                 $.ajax({
-                        method: "DELETE",
-                        url: `/api/horario/${id}`,
-                        success: function(res) {
-                            alert(res.msg);
-                            location.replace('/horarios');
-                        },
-                        error: function (xhr) {}
-                    });
+                    method: "DELETE",
+                    url: `/api/horario/${id}`,
+                    success: function(res) {
+                        alert(res.msg);
+                        location.assign('/horarios');
+                    },
+                    error: function(xhr) {}
+                });
             } else {
-                location.replace('/horarios');
+                location.assign('/horarios');
             }
+        }
+
+        function editSchedule(id) {
+            location.assign(`/horarios/editar/${id}`);
         }
 
         $(function() {

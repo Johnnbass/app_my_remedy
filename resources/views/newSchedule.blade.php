@@ -6,6 +6,7 @@
         <div class="card-body">
             <form id="scheduleForm">
                 @csrf
+                <input type="hidden" name="id" id="id" value="{{ $id ?? ''}}"/>
                 <div class="form-group">
                     <label for="schedule">Horário</label>
                     <input type="time" class="form-control" name="schedule" id="schedule" />
@@ -27,6 +28,8 @@
             }
         });
 
+        const scheduleID = $('#id').val();
+
         function loadSchedules() {
             $.getJSON("/api/horario", function(data) {
                 for (let i = 0; i < data.length; i++) {
@@ -42,13 +45,14 @@
             const dadosForm = $('#scheduleForm').serialize();
 
             $.ajax({
-                method: "POST",
-                url: "/api/horario",
+                method: (scheduleID) ? "PUT" : "POST",
+                url: `/api/horario/${scheduleID}`,
                 data: dadosForm,
                 dataType: 'json',
                 success: function(res) {
-                    alert('Horário cadastrado com sucesso!');
-                    location.replace('/horarios');
+                    let ret = 'Horário ' + ((scheduleID) ? 'alterado' : 'cadastrado') + ' com sucesso!';
+                    alert(ret);
+                    location.assign('/horarios');
                 },
                 error: function(xhr) {
                     let error = xhr.responseJSON.errors.schedule[0];
@@ -58,11 +62,18 @@
         });
 
         function cancela() {
-            location.replace('/horarios');
+            location.assign('/horarios');
         };
+
+        function loadScheduleData(id) {
+            $.getJSON(`/api/horario/${id}`, function(data) {
+                $('#schedule').val(data.schedule);
+            });
+        }
 
         $(function() {
             loadSchedules();
+            loadScheduleData(scheduleID);
         });
 
     </script>

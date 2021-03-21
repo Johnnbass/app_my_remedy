@@ -85,7 +85,7 @@
                 dataType: 'json',
                 success: function(res) {
                     alert('Medicamento cadastrado com sucesso!');
-                    location.replace('/medicamentos');
+                    location.assign('/medicamentos');
                 },
                 error: function(xhr) {
                     let error = xhr.responseJSON.errors;
@@ -101,7 +101,7 @@
         });
 
         function cancela() {
-            location.replace('/medicamentos');
+            location.assign('/medicamentos');
         };
 
         $(function() {

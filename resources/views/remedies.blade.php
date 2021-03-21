@@ -76,12 +76,12 @@
                         url: `/api/medicamento/${id}`,
                         success: function(res) {
                             alert(res.msg);
-                            location.replace('/medicamentos');
+                            location.assign('/medicamentos');
                         },
                         error: function (xhr) {}
                     });
             } else {
-                location.replace('/medicamentos');
+                location.assign('/medicamentos');
             }
         }
 
