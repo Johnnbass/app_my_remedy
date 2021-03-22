@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Cadastro de Pessoas</h5>
-            <table class="table table-ordered table-hover" id="peopleTable">
+            <table class="table table-ordered table-hover table-striped" id="peopleTable">
                 <thead>
                     <tr>
                         <th>Data do Cadastro</th>

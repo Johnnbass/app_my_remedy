@@ -72,9 +72,9 @@ class RemedyController extends Controller
         if ($request->has('dadosh') || $request->has('dadosp')) {
             $sData = $request->dadosh ?? '';
             $pData = $request->dadosp ?? '';
-            $remedy = $this->remedy->with(["schedule:id,{$sData}", "person:id,{$pData}"]);
+            $remedy = $this->remedy->with(["schedule:id,{$sData}", "person:id,{$pData}"])->join('schedules', 'remedies.schedule_id', '=', 'schedules.id');
         } else {
-            $remedy = $this->remedy->with(['schedule', 'person']);
+            $remedy = $this->remedy->with(['schedule', 'person'])->join('schedules', 'remedies.schedule_id', '=', 'schedules.id');
         }
 
         // to query filters (attribute=name:operand:value)
@@ -91,9 +91,9 @@ class RemedyController extends Controller
         // end query
         if ($request->has('dados')) {
             $data = $request->dados;
-            $remedy = $remedy->selectRaw($data)->get();
+            $remedy = $remedy->selectRaw($data)->orderBy('schedule', 'asc')->orderBy('name', 'asc')->get();
         } else {
-            $remedy = $remedy->get();
+            $remedy = $remedy->orderBy('schedule', 'asc')->orderBy('name', 'asc')->get();
         }
 
         return response()->json($remedy, 200);

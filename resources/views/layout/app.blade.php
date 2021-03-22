@@ -2,7 +2,7 @@
 
 <head>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <title>Cadastro de Medicamentos</title>
+    <title>Meu Remédio</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         body {

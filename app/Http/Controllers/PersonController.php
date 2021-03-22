@@ -84,9 +84,9 @@ class PersonController extends Controller
         // end query
         if ($request->has('dados')) {
             $data = $request->dados;
-            $person = $person->selectRaw($data)->get();
+            $person = $person->selectRaw($data)->orderBy('name', 'asc')->get();
         } else {
-            $person = $person->get();
+            $person = $person->orderBy('name', 'asc')->get();
         }
 
         return response()->json($person, 200);

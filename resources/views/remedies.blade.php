@@ -6,28 +6,24 @@
             <a href="/medicamentos/novo" class="btn btn-sm btn-info" role="button">Novo medicamento</a>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="">
-                    <h5 class="card-title">Cadastro de Medicamentos</h5>
-                    <table class="table table-ordered table-hover" id="remedyTable">
-                        <thead>
-                            <tr>
-                                <th>Data do Cadastro</th>
-                                <th>Nome</th>
-                                <th>Dosagem</th>
-                                <th>Preço</th>
-                                <th>Horário</th>
-                                <th>Quem usa</th>
-                                <th>Período</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <h5 class="card-title">Cadastro de Medicamentos</h5>
+            <table class="table table-ordered table-hover table-striped" id="remedyTable">
+                <thead>
+                    <tr>
+                        <th>Data do Cadastro</th>
+                        <th>Nome</th>
+                        <th>Dosagem</th>
+                        <th>Preço</th>
+                        <th>Horário</th>
+                        <th>Quem usa</th>
+                        <th>Período</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection
@@ -39,22 +35,24 @@
             let time = null;
             let price = (data.price === null) ? '' : data.price;
 
-            time = ((date.getHours() < 10) ? '0'+date.getHours() : date.getHours())+':'+((date.getMinutes() < 10) ? '0'+date.getMinutes() : date.getMinutes());
-            date = ((date.getDate() < 10) ? '0'+date.getDate() : date.getDate())+'/'+((date.getMonth() < 10) ? '0'+date.getMonth() : date.getMonth())+'/'+date.getFullYear();
+            time = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours()) + ':' + ((date.getMinutes() < 10) ?
+                '0' + date.getMinutes() : date.getMinutes());
+            date = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate()) + '/' + ((date.getMonth() < 10) ? '0' +
+                date.getMonth() : date.getMonth()) + '/' + date.getFullYear();
 
             let line = `<tr>
-                            <td>${date} - ${time}</td>
-                            <td>${data.name}</td>
-                            <td>${data.dosage}</td>
-                            <td>${price}</td>
-                            <td>${data.schedule.schedule}</td>
-                            <td>${data.person.name}</td>
-                            <td>${data.period}</td>
-                            <td>
-                                <button class="btn btn-sm btn-secondary" onclick="editRemedy(${data.id})">Editar</button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteRemedy(${data.id})">Apagar</button>
-                            </td>
-                        </tr>`;
+                                <td>${date} - ${time}</td>
+                                <td>${data.name}</td>
+                                <td>${data.dosage}</td>
+                                <td>${price}</td>
+                                <td>${data.schedule.schedule}</td>
+                                <td>${data.person.name}</td>
+                                <td>${data.period}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary" onclick="editRemedy(${data.id})">Editar</button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteRemedy(${data.id})">Apagar</button>
+                                </td>
+                            </tr>`;
             return line;
         }
 
@@ -72,14 +70,14 @@
 
             if (res) {
                 $.ajax({
-                        method: "DELETE",
-                        url: `/api/medicamento/${id}`,
-                        success: function(res) {
-                            alert(res.msg);
-                            location.assign('/medicamentos');
-                        },
-                        error: function (xhr) {}
-                    });
+                    method: "DELETE",
+                    url: `/api/medicamento/${id}`,
+                    success: function(res) {
+                        alert(res.msg);
+                        location.assign('/medicamentos');
+                    },
+                    error: function(xhr) {}
+                });
             } else {
                 location.assign('/medicamentos');
             }
@@ -89,10 +87,9 @@
             location.assign(`/medicamentos/editar/${id}`);
         }
 
-
         $(function() {
             loadPeople();
-        })
+        });
 
     </script>
 @endsection

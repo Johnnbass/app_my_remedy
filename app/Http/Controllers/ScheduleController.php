@@ -81,9 +81,9 @@ class ScheduleController extends Controller
         // end query
         if ($request->has('dados')) {
             $data = $request->dados;
-            $schedule = $schedule->selectRaw($data)->get();
+            $schedule = $schedule->selectRaw($data)->orderBy('schedule', 'asc')->get();
         } else {
-            $schedule = $schedule->get();
+            $schedule = $schedule->orderBy('schedule', 'asc')->get();
         }
 
         return response()->json($schedule, 200);

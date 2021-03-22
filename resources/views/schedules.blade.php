@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Cadastro de Horários</h5>
-            <table class="table table-ordered table-hover" id="scheduleTable">
+            <table class="table table-ordered table-hover table-striped" id="scheduleTable">
                 <thead>
                     <tr>
                         <th>Data do Cadastro</th>
@@ -42,14 +42,14 @@
             }
 
             let line = `<tr>
-                                <td>${date} - ${time}</td>
-                                <td>${data.schedule}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-secondary" onclick="editSchedule(${data.id})" ${disabled}>Editar</button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${data.id})" ${disabled}>Apagar</button>
-                                    ${disabledMsg}
-                                </td>
-                            </tr>`;
+                            <td>${date} - ${time}</td>
+                            <td>${data.schedule}</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary" onclick="editSchedule(${data.id})" ${disabled}>Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${data.id})" ${disabled}>Apagar</button>
+                                ${disabledMsg}
+                            </td>
+                        </tr>`;
             return line;
         }
 
