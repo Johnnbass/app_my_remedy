@@ -22,3 +22,4 @@
 
 - A partir da raiz do projeto, rode o servidor embutido: $ php artisan serve
 
+Obs.: na raiz do projeto se encontra o json da collection de requisições do postman para teste dos endpoints

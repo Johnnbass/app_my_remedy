@@ -33,7 +33,7 @@
         function mountLine(data) {
             let date = new Date(data.created_at);
             let time = null;
-            let price = (data.price === null) ? '' : data.price;
+            let price = (data.price === null) ? '' : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(data.price);
 
             time = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours()) + ':' + ((date.getMinutes() < 10) ?
                 '0' + date.getMinutes() : date.getMinutes());
