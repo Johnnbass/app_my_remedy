@@ -85,6 +85,11 @@
             }
         }
 
+        function editRemedy(id) {
+            location.assign(`/medicamentos/editar/${id}`);
+        }
+
+
         $(function() {
             loadPeople();
         })

@@ -76,6 +76,10 @@
             }
         }
 
+        function editPerson(id) {
+            location.assign(`/pessoas/editar/${id}`);
+        }
+
         $(function() {
             loadPeople();
         })

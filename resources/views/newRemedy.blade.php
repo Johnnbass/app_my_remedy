@@ -6,6 +6,7 @@
         <div class="card-body">
             <form id="remedyForm">
                 @csrf
+                <input type="hidden" name="id" id="id" value="{{ $id ?? ''}}"/>
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="text" class="form-control" name="name" id="name"
@@ -55,6 +56,8 @@
             }
         });
 
+        const remedyID = $('#id').val();
+
         function loadSchedules() {
             $.getJSON("/api/horario", function(data) {
                 for (let i = 0; i < data.length; i++) {
@@ -79,12 +82,13 @@
             let dadosForm = $('#remedyForm').serialize();
             
             $.ajax({
-                method: "POST",
-                url: "/api/medicamento",
+                method: (remedyID) ? "PUT" : "POST",
+                url: `/api/medicamento/${remedyID}`,
                 data: dadosForm,
                 dataType: 'json',
                 success: function(res) {
-                    alert('Medicamento cadastrado com sucesso!');
+                    let ret = 'Medicamento ' + ((remedyID) ? 'alterado' : 'cadastrado') + ' com sucesso!';
+                    alert(ret);
                     location.assign('/medicamentos');
                 },
                 error: function(xhr) {
@@ -104,9 +108,21 @@
             location.assign('/medicamentos');
         };
 
+        function loadRemedyData(id) {
+            $.getJSON(`/api/medicamento/${id}`, function(data) {
+                $('#name').val(data.name);
+                $('#dosage').val(data.dosage);
+                $('#price').val(data.price);
+                $('#schedule_id').val(data.schedule_id);
+                $('#person_id').val(data.person_id);
+                $('#period').val(data.period);
+            });
+        }
+
         $(function() {
             loadSchedules();
             loadPeople();
+            loadRemedyData(remedyID);
         })
 
     </script>

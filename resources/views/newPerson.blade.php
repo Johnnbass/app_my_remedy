@@ -6,6 +6,7 @@
         <div class="card-body">
             <form id="personForm">
                 @csrf
+                <input type="hidden" name="id" id="id" value="{{ $id ?? ''}}"/>
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="text" class="form-control" name="name" id="name"
@@ -38,18 +39,21 @@
             }
         });
 
+        const personID = $('#id').val();
+
         $('#personForm').submit(function(e) {
             e.preventDefault();
 
             const dadosForm = $('#personForm').serialize();
 
             $.ajax({
-                method: "POST",
-                url: "/api/pessoa",
+                method: (personID) ? "PUT" : "POST",
+                url: `/api/pessoa/${personID}`,
                 data: dadosForm,
                 dataType: 'json',
                 success: function(res) {
-                    alert('Pessoa cadastrada com sucesso!');
+                    let ret = 'Pessoa ' + ((personID) ? 'alterada' : 'cadastrada') + ' com sucesso!';
+                    alert(ret);
                     location.assign('/pessoas');
                 },
                 error: function(xhr) {
@@ -68,6 +72,18 @@
         function cancela() {
             location.assign('/pessoas');
         };
+
+        function loadPersonData(id) {
+            $.getJSON(`/api/pessoa/${id}`, function(data) {
+                $('#name').val(data.name);
+                $('#age').val(data.age);
+                $('#address').val(data.address);
+            });
+        }
+
+        $(function() {
+            loadPersonData(personID);
+        });
 
     </script>
 @endsection

@@ -36,6 +36,9 @@ Route::prefix('/pessoas')->group(function() {
     Route::get('/novo', function () {
         return view('newPerson');
     });
+    Route::get('/editar/{id}', function (int $id) {
+        return view('newPerson', ['id' => $id]);
+    });
 });
 
 Route::prefix('/medicamentos')->group(function () {
@@ -44,6 +47,9 @@ Route::prefix('/medicamentos')->group(function () {
     });
     Route::get('/novo', function() {
         return view('newRemedy');
+    });
+    Route::get('/editar/{id}', function (int $id) {
+        return view('newRemedy', ['id' => $id]);
     });
 });
 
